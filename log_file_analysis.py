@@ -13,7 +13,7 @@ import win32evtlogutil
 
 # Set the log server
 log_server = 'localhost'
-log_type = 'System' # Choices include 'Application', 'Security', 'Security' (Note: For security logs, need admin privileges)
+log_type = 'Application' # Choices include 'Application', 'Setup', 'Security', 'System' (Note: For security logs, need admin privileges)
 
 read_log = win32evtlog.OpenEventLog(log_server, log_type)
 
@@ -31,19 +31,25 @@ while True:
             for event_log in event_logs:
                 print('Event Category:', event_log.EventCategory)
                 print('Time Generated:', event_log.TimeGenerated)
+                print('Record Number:', event_log.RecordNumber)
                 print('Source Name:', event_log.SourceName)
                 print('Event ID: ', event_log.EventID)
                 print('Event Type:', event_log.EventType)
                 print('Event Description:', win32evtlogutil.SafeFormatMessage(event_log, log_type))
+                print('Computer:', event_log.ComputerName)
+                print('User:', event_log.StringInserts[0] if event_log.StringInserts else None)
                 print('-----------------------------------------------------------------------------------')
 
-                # Example output
                 # Event Category: 0
-                # Time Generated: 2023-02-27 22:30:29
-                # Source Name: Service Control Manager
-                # Event ID:  1073748864
+                # Time Generated: 2023-06-17 10:59:53
+                # Record Number: 11125
+                # Source Name: igccservice
+                # Event ID:  0
                 # Event Type: 4
-                # Event Description: The start type of the Background Intelligent Transfer Service service was changed from demand start to auto start.
+                # Event Description: PowerEvent handled successfully by the service.
+
+                # Computer: DESKTOP-HEIO2DT
+                # User: PowerEvent handled successfully by the service.
                 # -----------------------------------------------------------------------------------
     except KeyboardInterrupt:
         print('Program terminated by user')
